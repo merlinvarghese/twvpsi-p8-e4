@@ -1,8 +1,6 @@
 package com.tw.vapasi;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 class ParkingLot {
@@ -19,6 +17,10 @@ class ParkingLot {
         return slot.size() < size;
     }
 
+    private boolean isVehicleNotParked(Parkable vehicle) {
+        return !slot.contains(vehicle);
+    }
+
     void park(Parkable vehicle) throws ParkException {
         if (!isSlotAvailable()) {
             throw new ParkException();
@@ -26,14 +28,16 @@ class ParkingLot {
         slot.add(vehicle);
     }
 
-    private boolean isVehicleParked(Parkable vehicle) {
+    void unpark(Parkable parkable) throws ParkException {
+        if (isVehicleNotParked(parkable)) {
+            throw new ParkException();
+        }
+        slot.remove(parkable);
+    }
+
+    boolean IsVehicleParked(Parkable vehicle)
+    {
         return slot.contains(vehicle);
     }
 
-    void unPark(Parkable vehicle) throws ParkException {
-        if (!isVehicleParked(vehicle)) {
-            throw new ParkException();
-        }
-        slot.remove(vehicle);
-    }
 }
