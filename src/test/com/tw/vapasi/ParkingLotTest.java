@@ -3,6 +3,7 @@ package com.tw.vapasi;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.configuration.IMockitoConfiguration;
 
 class ParkingLotTest implements Parkable {
 
@@ -42,7 +43,7 @@ class ParkingLotTest implements Parkable {
         Parkable vehicle = new Vehicle();
         ParkingLot parkingLot = new ParkingLot(30);
         try {
-            parkingLot.unpark(vehicle);
+            parkingLot.unPark(vehicle);
             Assertions.fail("It has thrown an exception");
         } catch (ParkException e) {
             // passed
@@ -57,7 +58,7 @@ class ParkingLotTest implements Parkable {
         parkingLot.park(vehicle);
         try {
             //Act
-            parkingLot.unpark(vehicle);
+            parkingLot.unPark(vehicle);
             // Assert
 
         } catch (ParkException e) {
@@ -78,7 +79,7 @@ class ParkingLotTest implements Parkable {
     }
 
     @Test
-    void expectMyVehicleIsNotParkedInParkingLot() throws ParkException {
+    void expectMyVehicleIsNotParkedInParkingLot(){
         Parkable vehicle = new Vehicle();
 
         ParkingLot parkingLot = new ParkingLot(30);
@@ -87,4 +88,31 @@ class ParkingLotTest implements Parkable {
 
 
     }
+    @Test
+    void expectNotifyOwnerWhenParkingLotIsFull() throws ParkException {
+        Parkable vehicle = new Vehicle();
+        Parkable vehicle1 = new Vehicle();
+        ParkingLotOwner owner=new Owner();
+
+        ParkingLot parkingLot = new ParkingLot(1,owner);
+        parkingLot.park(vehicle);
+        parkingLot.park(vehicle1);
+
+        Assertions.assertTrue(owner.notifyParkingLotFull());
+    }
+
+    @Test
+    void expectNotifyOwnerWhenParkingLotIsAvailable() throws ParkException {
+        Parkable vehicle = new Vehicle();
+        Parkable vehicle1 = new Vehicle();
+        ParkingLotOwner owner=new Owner();
+
+        ParkingLot parkingLot = new ParkingLot(1,owner);
+        parkingLot.park(vehicle);
+        parkingLot.park(vehicle1);
+        parkingLot.unPark(vehicle);
+
+        Assertions.assertTrue(owner.notifyParkingLotAvailable());
+    }
+
 }
