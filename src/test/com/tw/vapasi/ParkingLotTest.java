@@ -3,7 +3,12 @@ package com.tw.vapasi;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.configuration.IMockitoConfiguration;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.mockito.Mockito.mock;
 
 class ParkingLotTest implements Parkable {
 
@@ -114,5 +119,22 @@ class ParkingLotTest implements Parkable {
 
         Assertions.assertTrue(owner.notifyParkingLotAvailable());
     }
+    @Test
+    void expectValetIsAbleToPark() {
 
+        Parkable vehicle = new Vehicle();
+        List<ParkingLot> parkingLot = new ArrayList<>(Arrays.asList(
+                new ParkingLot(1,mock(Owner.class)),
+                new ParkingLot(3,mock(Owner.class)),
+                new ParkingLot(5,mock(Owner.class))
+                ));
+        Valet valet = new Valet(parkingLot);
+        try {
+            //Act
+           valet.park(vehicle);
+            // Assert
+        } catch (ParkException e) {
+            Assertions.fail("It has thrown an exception");
+        }
+    }
 }

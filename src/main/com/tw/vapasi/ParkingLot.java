@@ -9,6 +9,7 @@ class ParkingLot {
     private final Set<Parkable> slot;
     ParkingLotOwner owner;
 
+
     ParkingLot(int size) {
         this.size = size;
         this.slot = new HashSet<>();
@@ -20,7 +21,7 @@ class ParkingLot {
         this.owner  = owner;
     }
 
-    private boolean isSlotAvailable() {
+     boolean isSlotAvailable() {
         return slot.size() <= size;
     }
 
@@ -52,5 +53,6 @@ class ParkingLot {
     {
         return slot.contains(vehicle);
     }
+
 
 }
